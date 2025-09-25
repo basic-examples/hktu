@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "hktu",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "rimraf dist && tsc && clean-empty-js 'dist/**/*.js' 'dist/**/*.d.ts' && clean-empty-directory dist && cpy README.md dist && package-json-minifier",
+    "publish": "npm run build && cd dist && npm publish"
+  },
+  "devDependencies": {
+    "clean-empty-directory": "^2.0.1",
+    "clean-empty-js": "^2.0.3",
+    "cpy-cli": "^6.0.0",
+    "package.json-minifier": "^0.0.4",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.2"
+  }
+}
