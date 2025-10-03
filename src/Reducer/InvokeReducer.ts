@@ -1,13 +1,13 @@
 import { Reducer } from '.';
-import { HKT } from '../HKT';
+import { InvokeHKT } from '../util/InvokeHKT';
 
-export type Reduce<
+export type InvokeReducer<
   AccumulatorType,
   ItemType,
   Kind extends Reducer<AccumulatorType, ItemType>,
   AccumulatorValue extends AccumulatorType,
   ItemValue extends ItemType,
-> = HKT<
+> = InvokeHKT<
   'next',
   AccumulatorType,
   Reducer<AccumulatorType, ItemType>,

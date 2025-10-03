@@ -1,12 +1,12 @@
 import { Transformer } from '.';
-import { HKT } from '../HKT';
+import { InvokeHKT } from '../util/InvokeHKT';
 
-export type Transform2<
+export type InvokeTransformer<
   FromType,
   ToType,
   Kind extends Transformer<FromType, ToType>,
   FromValue extends FromType,
-> = HKT<
+> = InvokeHKT<
   'output',
   ToType,
   Transformer<FromType, ToType>,
