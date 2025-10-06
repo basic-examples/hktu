@@ -1,148 +1,115 @@
-import { Pipe2 } from './Pipe';
+import { Pipe } from './Pipe';
 import { Transformer } from './Transformer';
 import { IfHasRaw } from './util/IfHasRaw';
+import { IsNever } from './util/IsNever';
 import { RawField } from './util/RawField';
 
-export interface Compose<
+export interface Compose2<
   K1 extends Transformer<unknown, unknown>,
   K2 extends Transformer<K1['output'], unknown>,
 > extends Transformer<K1['input'], K2['output']> {
   output: IfHasRaw<
     this,
     'input',
-    ComposeRaw<K1, K2, RawField<this, 'input'>>,
+    Compose2Raw<K1, K2, RawField<this, 'input'>>,
     K2['output']
   >;
 }
 
-export type ComposeRaw<
+export type Compose2Raw<
   K1 extends Transformer<unknown, unknown>,
   K2 extends Transformer<K1['output'], unknown>,
   Input extends K1['input'],
-> = Pipe2<Input, K1, K2>;
+> = Pipe<Input, K1, K2>;
 
-export type Compose2<
+export type Compose<
   K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-> = Compose<K1, K2>;
-
-export type Compose3<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-> = Compose<Compose2<K1, K2>, K3>;
-
-export type Compose4<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-> = Compose<Compose3<K1, K2, K3>, K4>;
-
-export type Compose5<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-> = Compose<Compose4<K1, K2, K3, K4>, K5>;
-
-export type Compose6<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-> = Compose<Compose5<K1, K2, K3, K4, K5>, K6>;
-
-export type Compose7<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-> = Compose<Compose6<K1, K2, K3, K4, K5, K6>, K7>;
-
-export type Compose8<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-> = Compose<Compose7<K1, K2, K3, K4, K5, K6, K7>, K8>;
-
-export type Compose9<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-  K9 extends Transformer<K8['output'], unknown>,
-> = Compose<Compose8<K1, K2, K3, K4, K5, K6, K7, K8>, K9>;
-
-export type Compose10<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-  K9 extends Transformer<K8['output'], unknown>,
-  K10 extends Transformer<K9['output'], unknown>,
-> = Compose<Compose9<K1, K2, K3, K4, K5, K6, K7, K8, K9>, K10>;
-
-export type Compose11<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-  K9 extends Transformer<K8['output'], unknown>,
-  K10 extends Transformer<K9['output'], unknown>,
-  K11 extends Transformer<K10['output'], unknown>,
-> = Compose<Compose10<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10>, K11>;
-
-export type Compose12<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-  K9 extends Transformer<K8['output'], unknown>,
-  K10 extends Transformer<K9['output'], unknown>,
-  K11 extends Transformer<K10['output'], unknown>,
-  K12 extends Transformer<K11['output'], unknown>,
-> = Compose<Compose11<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11>, K12>;
-
-export type Compose13<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-  K3 extends Transformer<K2['output'], unknown>,
-  K4 extends Transformer<K3['output'], unknown>,
-  K5 extends Transformer<K4['output'], unknown>,
-  K6 extends Transformer<K5['output'], unknown>,
-  K7 extends Transformer<K6['output'], unknown>,
-  K8 extends Transformer<K7['output'], unknown>,
-  K9 extends Transformer<K8['output'], unknown>,
-  K10 extends Transformer<K9['output'], unknown>,
-  K11 extends Transformer<K10['output'], unknown>,
-  K12 extends Transformer<K11['output'], unknown>,
-  K13 extends Transformer<K12['output'], unknown>,
-> = Compose<Compose12<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12>, K13>;
+  K2 extends Transformer<K1['output'], unknown> = never,
+  K3 extends Transformer<K2['output'], unknown> = never,
+  K4 extends Transformer<K3['output'], unknown> = never,
+  K5 extends Transformer<K4['output'], unknown> = never,
+  K6 extends Transformer<K5['output'], unknown> = never,
+  K7 extends Transformer<K6['output'], unknown> = never,
+  K8 extends Transformer<K7['output'], unknown> = never,
+  K9 extends Transformer<K8['output'], unknown> = never,
+  K10 extends Transformer<K9['output'], unknown> = never,
+  K11 extends Transformer<K10['output'], unknown> = never,
+  K12 extends Transformer<K11['output'], unknown> = never,
+  K13 extends Transformer<K12['output'], unknown> = never,
+  K14 extends Transformer<K13['output'], unknown> = never,
+  K15 extends Transformer<K14['output'], unknown> = never,
+  K16 extends Transformer<K15['output'], unknown> = never,
+  K17 extends Transformer<K16['output'], unknown> = never,
+  K18 extends Transformer<K17['output'], unknown> = never,
+  K19 extends Transformer<K18['output'], unknown> = never,
+  K20 extends Transformer<K19['output'], unknown> = never,
+  K21 extends Transformer<K20['output'], unknown> = never,
+  K22 extends Transformer<K21['output'], unknown> = never,
+  K23 extends Transformer<K22['output'], unknown> = never,
+  K24 extends Transformer<K23['output'], unknown> = never,
+  K25 extends Transformer<K24['output'], unknown> = never,
+  K26 extends Transformer<K25['output'], unknown> = never,
+> = IsNever<K26> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20, K21, K22, K23, K24, K25>, K26>
+  : IsNever<K25> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20, K21, K22, K23, K24>, K25>
+  : IsNever<K24> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20, K21, K22, K23>, K24>
+  : IsNever<K23> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20, K21, K22>, K23>
+  : IsNever<K22> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20, K21>, K22>
+  : IsNever<K21> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19, K20>, K21>
+  : IsNever<K20> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18, K19>, K20>
+  : IsNever<K19> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17, K18>, K19>
+  : IsNever<K18> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16, K17>, K18>
+  : IsNever<K17> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15, K16>, K17>
+  : IsNever<K16> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14, K15>, K16>
+  : IsNever<K15> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13, K14>, K15>
+  : IsNever<K14> extends false
+  ? // prettier-ignore
+    Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12, K13>, K14>
+  : IsNever<K13> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K12>, K13>
+  : IsNever<K12> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11>, K12>
+  : IsNever<K11> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9, K10>, K11>
+  : IsNever<K10> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8, K9>, K10>
+  : IsNever<K9> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7, K8>, K9>
+  : IsNever<K8> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6, K7>, K8>
+  : IsNever<K7> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5, K6>, K7>
+  : IsNever<K6> extends false
+  ? Compose2<Compose<K1, K2, K3, K4, K5>, K6>
+  : IsNever<K5> extends false
+  ? Compose2<Compose<K1, K2, K3, K4>, K5>
+  : IsNever<K4> extends false
+  ? Compose2<Compose<K1, K2, K3>, K4>
+  : IsNever<K3> extends false
+  ? Compose2<Compose2<K1, K2>, K3>
+  : IsNever<K2> extends false
+  ? Compose2<K1, K2>
+  : K1;

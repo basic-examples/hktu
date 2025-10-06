@@ -1,6 +1,6 @@
 import { Transformer } from '../..';
 import { IsLowerAlpha } from '../../../Filter/string/char/IsLowerAlpha';
-import { Pipe3 } from '../../../Pipe';
+import { Pipe } from '../../../Pipe';
 import { IfHasRaw } from '../../../util/IfHasRaw';
 import { RawField } from '../../../util/RawField';
 import { Join } from '../../array/string/string/Join';
@@ -18,7 +18,7 @@ export interface ToUppercase extends Transformer<string, string> {
   >;
 }
 
-export type ToUppercaseRaw<S extends string> = Pipe3<
+export type ToUppercaseRaw<S extends string> = Pipe<
   S,
   Split,
   ArrayMap<If<IsLowerAlpha, ToUppercaseInternal, I<string>>>,
