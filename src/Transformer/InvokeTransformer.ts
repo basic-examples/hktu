@@ -2,14 +2,11 @@ import { Transformer } from '.';
 import { InvokeHKT } from '../util/InvokeHKT';
 
 export type InvokeTransformer<
-  FromType,
-  ToType,
-  Kind extends Transformer<FromType, ToType>,
-  FromValue extends FromType,
+  Kind extends Transformer<unknown, unknown>,
+  FromValue extends Kind['input'],
 > = InvokeHKT<
   'output',
-  ToType,
-  Transformer<FromType, ToType>,
+  Transformer<Kind['input'], Kind['output']>,
   Kind,
   { input: FromValue }
 >;

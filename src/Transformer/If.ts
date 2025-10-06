@@ -6,30 +6,24 @@ import { RawField } from '../util/RawField';
 import { InvokeTransformer } from './InvokeTransformer';
 
 export interface If<
-  From,
-  To,
-  Condition extends Filter<From>,
-  True extends Transformer<From, To>,
-  False extends Transformer<From, To>,
-> extends Transformer<From, To> {
+  Condition extends Filter<unknown>,
+  True extends Transformer<Condition['input'], unknown>,
+  False extends Transformer<Condition['input'], True['output']>,
+> extends Transformer<Condition['input'], True['output']> {
   output: IfHasRaw<
     this,
     'input',
-    IfRaw<From, To, Condition, True, False, RawField<this, 'input'>>,
-    To
+    IfRaw<Condition, True, False, RawField<this, 'input'>>,
+    True['output']
   >;
 }
 
 export type IfRaw<
-  From,
-  To,
-  Condition extends Filter<From>,
-  True extends Transformer<From, To>,
-  False extends Transformer<From, To>,
-  Input extends From,
+  Condition extends Filter<unknown>,
+  True extends Transformer<Condition['input'], unknown>,
+  False extends Transformer<Condition['input'], True['output']>,
+  Input extends Condition['input'],
 > = InvokeTransformer<
-  From,
-  To,
-  InvokeFilter<From, Condition, Input> extends true ? True : False,
+  InvokeFilter<Condition, Input> extends true ? True : False,
   Input
 >;

@@ -1,14 +1,13 @@
 export type InvokeHKT<
   OutputFieldName extends string,
-  OutputType,
-  KindBase extends Record<OutputFieldName, OutputType>,
+  KindBase extends Record<OutputFieldName, unknown>,
   Kind extends KindBase,
   Input extends Omit<KindBase, OutputFieldName>,
 > = (Kind & {
-  [K in `${Extract<keyof Input, string>}_raw`]: Input extends Record<
-    K extends `${infer Prefix}_raw` ? Prefix : never,
-    infer I
-  >
+  [K in `${Extract<
+    keyof Input,
+    string
+  >}_raw`]: Input[K extends `${infer I extends string & keyof Input}_raw`
     ? I
-    : never;
+    : never];
 })[OutputFieldName];

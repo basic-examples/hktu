@@ -19,14 +19,9 @@ export interface ToUppercase extends Transformer<string, string> {
 }
 
 export type ToUppercaseRaw<S extends string> = Pipe3<
-  string,
   S,
   Split,
-  ArrayMap<
-    string,
-    string,
-    If<string, string, IsLowerAlpha, ToUppercaseInternal, I<string>>
-  >,
+  ArrayMap<If<IsLowerAlpha, ToUppercaseInternal, I<string>>>,
   Join
 >;
 

@@ -19,7 +19,7 @@ export type ComposeRaw<
   K1 extends Transformer<unknown, unknown>,
   K2 extends Transformer<K1['output'], unknown>,
   Input extends K1['input'],
-> = Pipe2<K1['output'], Input, K1, K2>;
+> = Pipe2<Input, K1, K2>;
 
 export type Compose2<
   K1 extends Transformer<unknown, unknown>,

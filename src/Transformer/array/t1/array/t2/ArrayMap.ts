@@ -3,35 +3,28 @@ import { IfHasRaw } from '../../../../../util/IfHasRaw';
 import { RawField } from '../../../../../util/RawField';
 import { InvokeTransformer } from '../../../../InvokeTransformer';
 
-export interface ArrayMap<From, To, Kind extends Transformer<From, To>>
-  extends Transformer<From[], To[]> {
+export interface ArrayMap<Kind extends Transformer<unknown, unknown>>
+  extends Transformer<Kind['input'][], Kind['output'][]> {
   output: IfHasRaw<
     this,
     'input',
-    ArrayMapRaw<From, To, Kind, RawField<this, 'input'>>,
-    To[]
+    ArrayMapRaw<Kind, RawField<this, 'input'>>,
+    Kind['output'][]
   >;
 }
 
 export type ArrayMapRaw<
-  From,
-  To,
-  Kind extends Transformer<From, To>,
-  List extends From[],
-> = ArrayMapRawInternal<From, To, Kind, List, []>;
+  Kind extends Transformer<unknown, unknown>,
+  List extends Kind['input'][],
+> = ArrayMapRawInternal<Kind, List, []>;
 
 type ArrayMapRawInternal<
-  From,
-  To,
-  Kind extends Transformer<From, To>,
-  List extends From[],
-  Acc extends To[],
-> = List extends [infer First extends From, ...infer Rest extends From[]]
-  ? ArrayMapRawInternal<
-      From,
-      To,
-      Kind,
-      Rest,
-      [...Acc, InvokeTransformer<From, To, Kind, First>]
-    >
+  Kind extends Transformer<unknown, unknown>,
+  List extends Kind['input'][],
+  Acc extends Kind['output'][],
+> = List extends [
+  infer First extends Kind['input'],
+  ...infer Rest extends Kind['input'][],
+]
+  ? ArrayMapRawInternal<Kind, Rest, [...Acc, InvokeTransformer<Kind, First>]>
   : Acc;

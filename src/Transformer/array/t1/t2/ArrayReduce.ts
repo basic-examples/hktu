@@ -5,48 +5,30 @@ import { IfHasRaw } from '../../../../util/IfHasRaw';
 import { RawField } from '../../../../util/RawField';
 
 export interface ArrayReduce<
-  AccumulatorType,
-  ItemType,
-  Kind extends Reducer<AccumulatorType, ItemType>,
-  InitialValue extends AccumulatorType,
-> extends Transformer<ItemType[], AccumulatorType> {
+  Kind extends Reducer<unknown, unknown>,
+  InitialValue extends Kind['accumulator'],
+> extends Transformer<Kind['current'][], Kind['accumulator']> {
   output: IfHasRaw<
     this,
     'input',
-    ArrayReduceRaw<
-      AccumulatorType,
-      ItemType,
-      Kind,
-      InitialValue,
-      RawField<this, 'input'>
-    >,
-    AccumulatorType
+    ArrayReduceRaw<Kind, InitialValue, RawField<this, 'input'>>,
+    Kind['accumulator']
   >;
 }
 
 export type ArrayReduceRaw<
-  AccumulatorType,
-  ItemType,
-  Kind extends Reducer<AccumulatorType, ItemType>,
-  InitialValue extends AccumulatorType,
-  List extends ItemType[],
-> = ArrayReduceRawInternal<AccumulatorType, ItemType, Kind, InitialValue, List>;
+  Kind extends Reducer<unknown, unknown>,
+  InitialValue extends Kind['accumulator'],
+  List extends Kind['current'][],
+> = ArrayReduceRawInternal<Kind, InitialValue, List>;
 
 type ArrayReduceRawInternal<
-  AccumulatorType,
-  ItemType,
-  Kind extends Reducer<AccumulatorType, ItemType>,
-  InitialValue extends AccumulatorType,
-  List extends ItemType[],
+  Kind extends Reducer<unknown, unknown>,
+  InitialValue extends Kind['accumulator'],
+  List extends Kind['current'][],
 > = List extends [
-  infer First extends ItemType,
-  ...infer Rest extends ItemType[],
+  infer First extends Kind['current'],
+  ...infer Rest extends Kind['current'][],
 ]
-  ? ArrayReduceRawInternal<
-      AccumulatorType,
-      ItemType,
-      Kind,
-      InvokeReducer<AccumulatorType, ItemType, Kind, InitialValue, First>,
-      Rest
-    >
+  ? ArrayReduceRawInternal<Kind, InvokeReducer<Kind, InitialValue, First>, Rest>
   : InitialValue;

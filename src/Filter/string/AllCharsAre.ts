@@ -16,7 +16,7 @@ export type AllCharsAreRaw<
   K extends Filter<string>,
   S extends string,
 > = S extends `${infer FirstLetter extends string}${infer Rest extends string}`
-  ? InvokeFilter<string, K, FirstLetter> extends true
+  ? InvokeFilter<K, FirstLetter> extends true
     ? AllCharsAreRaw<K, Rest>
     : false
   : true;

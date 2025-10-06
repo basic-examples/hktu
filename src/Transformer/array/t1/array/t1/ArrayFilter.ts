@@ -4,32 +4,32 @@ import { InvokeFilter } from '../../../../../Filter/InvokeFilter';
 import { IfHasRaw } from '../../../../../util/IfHasRaw';
 import { RawField } from '../../../../../util/RawField';
 
-export interface ArrayFilter<T, K extends Filter<T>>
-  extends Transformer<T[], T[]> {
+export interface ArrayFilter<K extends Filter<unknown>>
+  extends Transformer<K['input'][], K['input'][]> {
   output: IfHasRaw<
     this,
     'input',
-    ArrayFilterRaw<T, K, RawField<this, 'input'>>,
-    T[]
+    ArrayFilterRaw<K, RawField<this, 'input'>>,
+    K['input'][]
   >;
 }
 
 export type ArrayFilterRaw<
-  T,
-  K extends Filter<T>,
-  List extends T[],
-> = ArrayFilterRawInternal<T, K, List, []>;
+  K extends Filter<unknown>,
+  List extends K['input'][],
+> = ArrayFilterRawInternal<K, List, []>;
 
 type ArrayFilterRawInternal<
-  T,
-  K extends Filter<T>,
-  Array extends T[],
-  Acc extends T[],
-> = Array extends [infer First extends T, ...infer Rest extends T[]]
+  K extends Filter<unknown>,
+  Array extends K['input'][],
+  Acc extends K['input'][],
+> = Array extends [
+  infer First extends K['input'],
+  ...infer Rest extends K['input'][],
+]
   ? ArrayFilterRawInternal<
-      T,
       K,
       Rest,
-      InvokeFilter<T, K, First> extends true ? [...Acc, First] : Acc
+      InvokeFilter<K, First> extends true ? [...Acc, First] : Acc
     >
   : Acc;
