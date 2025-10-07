@@ -1,4 +1,5 @@
 import { Transformer } from '../../..';
+import { HandleNever } from '../../../../util/HandleNever';
 import { IfHasRaw } from '../../../../util/IfHasRaw';
 import { RawField } from '../../../../util/RawField';
 
@@ -17,14 +18,14 @@ export type JoinRaw<A extends string[], Separator extends string = never> = [
 ] extends [never]
   ? JoinNever<A, ''>
   : A extends [infer First extends string, ...infer Rest extends string[]]
-  ? JoinSep<Rest, Separator, First>
+  ? JoinSep<Rest, Separator, HandleNever<First, A[0]>>
   : '';
 
 type JoinNever<A extends string[], Acc extends string> = A extends [
   infer First extends string,
   ...infer Rest extends string[],
 ]
-  ? JoinNever<Rest, `${Acc}${First}`>
+  ? JoinNever<Rest, `${Acc}${HandleNever<First, A[0]>}`>
   : Acc;
 
 type JoinSep<
@@ -32,5 +33,5 @@ type JoinSep<
   Separator extends string,
   Acc extends string,
 > = A extends [infer First extends string, ...infer Rest extends string[]]
-  ? JoinSep<Rest, Separator, `${Acc}${Separator}${First}`>
+  ? JoinSep<Rest, Separator, `${Acc}${Separator}${HandleNever<First, A[0]>}`>
   : Acc;

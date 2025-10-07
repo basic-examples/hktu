@@ -1,4 +1,5 @@
 import { Transformer } from '../../../..';
+import { HandleNever } from '../../../../../util/HandleNever';
 import { IfHasRaw } from '../../../../../util/IfHasRaw';
 import { RawField } from '../../../../../util/RawField';
 import { InvokeTransformer } from '../../../../InvokeTransformer';
@@ -26,5 +27,9 @@ type ArrayMapRawInternal<
   infer First extends Kind['input'],
   ...infer Rest extends Kind['input'][],
 ]
-  ? ArrayMapRawInternal<Kind, Rest, [...Acc, InvokeTransformer<Kind, First>]>
+  ? ArrayMapRawInternal<
+      Kind,
+      Rest,
+      [...Acc, InvokeTransformer<Kind, HandleNever<First, List[0]>>]
+    >
   : Acc;

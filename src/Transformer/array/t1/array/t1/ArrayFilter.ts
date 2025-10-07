@@ -1,6 +1,7 @@
 import { Transformer } from '../../../..';
 import { Filter } from '../../../../../Filter';
 import { InvokeFilter } from '../../../../../Filter/InvokeFilter';
+import { HandleNever } from '../../../../../util/HandleNever';
 import { IfHasRaw } from '../../../../../util/IfHasRaw';
 import { RawField } from '../../../../../util/RawField';
 
@@ -30,6 +31,8 @@ type ArrayFilterRawInternal<
   ? ArrayFilterRawInternal<
       K,
       Rest,
-      InvokeFilter<K, First> extends true ? [...Acc, First] : Acc
+      InvokeFilter<K, HandleNever<First, Array[0]>> extends true
+        ? [...Acc, HandleNever<First, Array[0]>]
+        : Acc
     >
   : Acc;

@@ -1,6 +1,7 @@
 import { Transformer } from '../../..';
 import { Reducer } from '../../../../Reducer';
 import { InvokeReducer } from '../../../../Reducer/InvokeReducer';
+import { HandleNever } from '../../../../util/HandleNever';
 import { IfHasRaw } from '../../../../util/IfHasRaw';
 import { RawField } from '../../../../util/RawField';
 
@@ -30,5 +31,9 @@ type ArrayReduceRawInternal<
   infer First extends Kind['current'],
   ...infer Rest extends Kind['current'][],
 ]
-  ? ArrayReduceRawInternal<Kind, InvokeReducer<Kind, InitialValue, First>, Rest>
+  ? ArrayReduceRawInternal<
+      Kind,
+      InvokeReducer<Kind, InitialValue, HandleNever<First, List[0]>>,
+      Rest
+    >
   : InitialValue;
