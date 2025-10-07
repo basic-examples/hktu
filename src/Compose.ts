@@ -2,6 +2,7 @@ import { InvokeFind } from './array/Find';
 import { InvokeMap } from './array/Map';
 import { Nth } from './array/Nth';
 import { Fn } from './Fn';
+import { Invoke } from './Invoke';
 import { Not } from './Not';
 import { Pipe } from './Pipe';
 import { InvokeUnwrapOr } from './Result';
@@ -309,6 +310,10 @@ interface Compose3<
   K1 extends Fn<unknown, unknown>,
   K2 extends Fn<K1['out'], unknown>,
   K3 extends Fn<K2['out'], unknown>,
-> extends Fn<K1['in'], K2['out']> {
-  out: IfInvoking<this, Fn<K3, Fn<K2, Fn<K1, Input<this>>>>, K3['out']>;
+> extends Fn<K1['in'], K3['out']> {
+  out: IfInvoking<
+    this,
+    Invoke<K3, Invoke<K2, Invoke<K1, Input<this>>>>,
+    K3['out']
+  >;
 }

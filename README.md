@@ -5,26 +5,23 @@ Collection of predefined transformers and Higher Kinded Types, utils
 ## Examples
 
 ```ts
-import { HKTU } from '../src';
+import { HKTU } from 'hktu';
 
-type OriginalString = 'hello42world';
-
+// "Hello, world!"
 type WithPipe = HKTU.Pipe<
-  OriginalString,
+  'hello42world',
   HKTU.string.Split<'42'>,
-  HKTU.array.Map<HKTU.string.Capitalize>,
+  HKTU.array.MapEx<
+    HKTU.value.If<
+      HKTU.value.IsAssignable<HKTU.types.ArrayItemInfo<string>, { index: 0 }>,
+      HKTU.Compose<
+        HKTU.object.Get<HKTU.types.ArrayItemInfo<string>, 'item'>,
+        HKTU.string.Capitalize
+      >,
+      HKTU.object.Get<HKTU.types.ArrayItemInfo<string>, 'item'>
+    >
+  >,
   HKTU.array.Join<', '>,
   HKTU.string.Append<'!'>
 >;
-// Hello, World!
-
-type Composition = HKTU.Compose<
-  HKTU.string.Split<'42'>,
-  HKTU.array.Map<HKTU.string.Capitalize>,
-  HKTU.array.Join<', '>,
-  HKTU.string.Append<'!'>
->;
-
-type WithComposition = HKTU.Pipe<OriginalString, Composition>;
-// Hello, World!
 ```

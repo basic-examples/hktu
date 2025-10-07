@@ -1,22 +1,21 @@
 import { HKTU } from '../src';
 
-type OriginalString = 'hello42world';
-
+// "Hello, world!"
 type WithPipe = HKTU.Pipe<
-  OriginalString,
+  'hello42world',
   HKTU.string.Split<'42'>,
-  HKTU.array.Map<HKTU.string.Capitalize>,
+  HKTU.array.MapEx<
+    HKTU.value.If<
+      HKTU.value.IsAssignable<HKTU.types.ArrayItemInfo<string>, { index: 0 }>,
+      HKTU.Compose<
+        HKTU.object.Get<HKTU.types.ArrayItemInfo<string>, 'item'>,
+        HKTU.string.Capitalize
+      >,
+      HKTU.object.Get<HKTU.types.ArrayItemInfo<string>, 'item'>
+    >
+  >,
   HKTU.array.Join<', '>,
   HKTU.string.Append<'!'>
 >;
 
-type Composition = HKTU.Compose<
-  HKTU.string.Split<'42'>,
-  HKTU.array.Map<HKTU.string.Capitalize>,
-  HKTU.array.Join<', '>,
-  HKTU.string.Append<'!'>
->;
-
-type WithComposition = HKTU.Pipe<OriginalString, Composition>;
-
-declare const _unused: WithPipe | WithComposition;
+declare const _unused: WithPipe;
