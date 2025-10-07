@@ -1,10 +1,3 @@
-# hktu - HKT Utils
-
-Collection of predefined transformers and Higher Kinded Types, utils
-
-## Examples
-
-```ts
 import { HKTU } from '../src';
 
 type OriginalString = 'hello42world';
@@ -16,7 +9,6 @@ type WithPipe = HKTU.Pipe<
   HKTU.array.Join<', '>,
   HKTU.string.Append<'!'>
 >;
-// Hello, World!
 
 type Composition = HKTU.Compose<
   HKTU.string.Split<'42'>,
@@ -26,5 +18,5 @@ type Composition = HKTU.Compose<
 >;
 
 type WithComposition = HKTU.Pipe<OriginalString, Composition>;
-// Hello, World!
-```
+
+declare const _unused: WithPipe | WithComposition;

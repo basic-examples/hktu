@@ -1,63 +1,108 @@
-import { FilterTransformed } from './Filter/FilterTransformed';
-import { IsAssignable } from './Filter/IsAssignable';
-import { Not } from './Filter/Not';
+import { InvokeFind } from './array/Find';
+import { InvokeMap } from './array/Map';
+import { Nth } from './array/Nth';
+import { Fn } from './Fn';
+import { Not } from './Not';
 import { Pipe } from './Pipe';
-import { Transformer } from './Transformer';
-import { ArrayMapRaw } from './Transformer/array/t1/array/t2/ArrayMap';
-import { ArrayFindRaw } from './Transformer/array/t1/t1/ArrayFind';
-import { InvokeTransformer } from './Transformer/InvokeTransformer';
-import { WrapTuple } from './Transformer/t1/tuple1/t1/WrapTuple';
-import { UnwrapTuple } from './Transformer/tuple1e/t1/t1/UnwrapTuple';
-import { IfHasRaw } from './util/IfHasRaw';
-import { RawField } from './util/RawField';
+import { InvokeUnwrapOr } from './Result';
+import { IfInvoking } from './utils/IfInvoking';
+import { Input } from './utils/Input';
+import { IsAssignable } from './value/IsAssignable';
+import { WrapBox } from './value/WrapBox';
 
 export interface Compose<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown> = never,
-  K3 extends Transformer<K2['output'], unknown> = never,
-  K4 extends Transformer<K3['output'], unknown> = never,
-  K5 extends Transformer<K4['output'], unknown> = never,
-  K6 extends Transformer<K5['output'], unknown> = never,
-  K7 extends Transformer<K6['output'], unknown> = never,
-  K8 extends Transformer<K7['output'], unknown> = never,
-  K9 extends Transformer<K8['output'], unknown> = never,
-  K10 extends Transformer<K9['output'], unknown> = never,
-  K11 extends Transformer<K10['output'], unknown> = never,
-  K12 extends Transformer<K11['output'], unknown> = never,
-  K13 extends Transformer<K12['output'], unknown> = never,
-  K14 extends Transformer<K13['output'], unknown> = never,
-  K15 extends Transformer<K14['output'], unknown> = never,
-  K16 extends Transformer<K15['output'], unknown> = never,
-  K17 extends Transformer<K16['output'], unknown> = never,
-  K18 extends Transformer<K17['output'], unknown> = never,
-  K19 extends Transformer<K18['output'], unknown> = never,
-  K20 extends Transformer<K19['output'], unknown> = never,
-  K21 extends Transformer<K20['output'], unknown> = never,
-  K22 extends Transformer<K21['output'], unknown> = never,
-  K23 extends Transformer<K22['output'], unknown> = never,
-  K24 extends Transformer<K23['output'], unknown> = never,
-  K25 extends Transformer<K24['output'], unknown> = never,
-  K26 extends Transformer<K25['output'], unknown> = never,
-  K27 extends Transformer<K26['output'], unknown> = never,
-  K28 extends Transformer<K27['output'], unknown> = never,
-  K29 extends Transformer<K28['output'], unknown> = never,
-  K30 extends Transformer<K29['output'], unknown> = never,
-  K31 extends Transformer<K30['output'], unknown> = never,
-  K32 extends Transformer<K31['output'], unknown> = never,
-  K33 extends Transformer<K32['output'], unknown> = never,
-  K34 extends Transformer<K33['output'], unknown> = never,
-  K35 extends Transformer<K34['output'], unknown> = never,
-  K36 extends Transformer<K35['output'], unknown> = never,
-  K37 extends Transformer<K36['output'], unknown> = never,
-  K38 extends Transformer<K37['output'], unknown> = never,
-  K39 extends Transformer<K38['output'], unknown> = never,
-  K40 extends Transformer<K39['output'], unknown> = never,
-  K41 extends Transformer<K40['output'], unknown> = never,
-  K42 extends Transformer<K41['output'], unknown> = never,
-> extends Transformer<K1['input'], K2['output']> {
-  output: 'input_raw' extends keyof this
+  K1 extends Fn<unknown, unknown>,
+  K2 extends Fn<K1['out'], unknown> = never,
+  K3 extends Fn<K2['out'], unknown> = never,
+  K4 extends Fn<K3['out'], unknown> = never,
+  K5 extends Fn<K4['out'], unknown> = never,
+  K6 extends Fn<K5['out'], unknown> = never,
+  K7 extends Fn<K6['out'], unknown> = never,
+  K8 extends Fn<K7['out'], unknown> = never,
+  K9 extends Fn<K8['out'], unknown> = never,
+  K10 extends Fn<K9['out'], unknown> = never,
+  K11 extends Fn<K10['out'], unknown> = never,
+  K12 extends Fn<K11['out'], unknown> = never,
+  K13 extends Fn<K12['out'], unknown> = never,
+  K14 extends Fn<K13['out'], unknown> = never,
+  K15 extends Fn<K14['out'], unknown> = never,
+  K16 extends Fn<K15['out'], unknown> = never,
+  K17 extends Fn<K16['out'], unknown> = never,
+  K18 extends Fn<K17['out'], unknown> = never,
+  K19 extends Fn<K18['out'], unknown> = never,
+  K20 extends Fn<K19['out'], unknown> = never,
+  K21 extends Fn<K20['out'], unknown> = never,
+  K22 extends Fn<K21['out'], unknown> = never,
+  K23 extends Fn<K22['out'], unknown> = never,
+  K24 extends Fn<K23['out'], unknown> = never,
+  K25 extends Fn<K24['out'], unknown> = never,
+  K26 extends Fn<K25['out'], unknown> = never,
+  K27 extends Fn<K26['out'], unknown> = never,
+  K28 extends Fn<K27['out'], unknown> = never,
+  K29 extends Fn<K28['out'], unknown> = never,
+  K30 extends Fn<K29['out'], unknown> = never,
+  K31 extends Fn<K30['out'], unknown> = never,
+  K32 extends Fn<K31['out'], unknown> = never,
+  K33 extends Fn<K32['out'], unknown> = never,
+  K34 extends Fn<K33['out'], unknown> = never,
+  K35 extends Fn<K34['out'], unknown> = never,
+  K36 extends Fn<K35['out'], unknown> = never,
+  K37 extends Fn<K36['out'], unknown> = never,
+  K38 extends Fn<K37['out'], unknown> = never,
+  K39 extends Fn<K38['out'], unknown> = never,
+  K40 extends Fn<K39['out'], unknown> = never,
+  K41 extends Fn<K40['out'], unknown> = never,
+  K42 extends Fn<K41['out'], unknown> = never,
+> extends Fn<
+    K1['in'],
+    ComposeOutput<
+      K1,
+      K2,
+      K3,
+      K4,
+      K5,
+      K6,
+      K7,
+      K8,
+      K9,
+      K10,
+      K11,
+      K12,
+      K13,
+      K14,
+      K15,
+      K16,
+      K17,
+      K18,
+      K19,
+      K20,
+      K21,
+      K22,
+      K23,
+      K24,
+      K25,
+      K26,
+      K27,
+      K28,
+      K29,
+      K30,
+      K31,
+      K32,
+      K33,
+      K34,
+      K35,
+      K36,
+      K37,
+      K38,
+      K39,
+      K40,
+      K41,
+      K42
+    >
+  > {
+  out: this extends Record<'in_raw', infer I extends K1['in']>
     ? Pipe<
-        RawField<this, 'input'>,
+        I,
         K1,
         K2,
         K3,
@@ -101,89 +146,169 @@ export interface Compose<
         K41,
         K42
       >
-    : ArrayFindRaw<
-        Not<
-          FilterTransformed<
-            Compose2<
-              UnwrapTuple<[Transformer<unknown, unknown>, unknown]>,
-              WrapTuple<Transformer<unknown, unknown>>
-            >,
-            IsAssignable<[Transformer<unknown, unknown>], [never]>
-          >
-        >,
-        ArrayMapRaw<
-          ToTupleWithOutput,
-          [
-            K42,
-            K41,
-            K40,
-            K39,
-            K38,
-            K37,
-            K36,
-            K35,
-            K34,
-            K33,
-            K32,
-            K31,
-            K30,
-            K29,
-            K28,
-            K27,
-            K26,
-            K25,
-            K24,
-            K23,
-            K22,
-            K21,
-            K20,
-            K19,
-            K18,
-            K17,
-            K16,
-            K15,
-            K14,
-            K13,
-            K12,
-            K11,
-            K10,
-            K9,
-            K8,
-            K7,
-            K6,
-            K5,
-            K4,
-            K3,
-            K2,
-            K1,
-          ]
-        >
-      > extends [unknown, infer I, ...unknown[]]
-    ? I
-    : never;
+    : ComposeOutput<
+        K1,
+        K2,
+        K3,
+        K4,
+        K5,
+        K6,
+        K7,
+        K8,
+        K9,
+        K10,
+        K11,
+        K12,
+        K13,
+        K14,
+        K15,
+        K16,
+        K17,
+        K18,
+        K19,
+        K20,
+        K21,
+        K22,
+        K23,
+        K24,
+        K25,
+        K26,
+        K27,
+        K28,
+        K29,
+        K30,
+        K31,
+        K32,
+        K33,
+        K34,
+        K35,
+        K36,
+        K37,
+        K38,
+        K39,
+        K40,
+        K41,
+        K42
+      >;
 }
+
+type ComposeOutput<
+  K1 extends Fn<unknown, unknown>,
+  K2 extends Fn<K1['out'], unknown> = never,
+  K3 extends Fn<K2['out'], unknown> = never,
+  K4 extends Fn<K3['out'], unknown> = never,
+  K5 extends Fn<K4['out'], unknown> = never,
+  K6 extends Fn<K5['out'], unknown> = never,
+  K7 extends Fn<K6['out'], unknown> = never,
+  K8 extends Fn<K7['out'], unknown> = never,
+  K9 extends Fn<K8['out'], unknown> = never,
+  K10 extends Fn<K9['out'], unknown> = never,
+  K11 extends Fn<K10['out'], unknown> = never,
+  K12 extends Fn<K11['out'], unknown> = never,
+  K13 extends Fn<K12['out'], unknown> = never,
+  K14 extends Fn<K13['out'], unknown> = never,
+  K15 extends Fn<K14['out'], unknown> = never,
+  K16 extends Fn<K15['out'], unknown> = never,
+  K17 extends Fn<K16['out'], unknown> = never,
+  K18 extends Fn<K17['out'], unknown> = never,
+  K19 extends Fn<K18['out'], unknown> = never,
+  K20 extends Fn<K19['out'], unknown> = never,
+  K21 extends Fn<K20['out'], unknown> = never,
+  K22 extends Fn<K21['out'], unknown> = never,
+  K23 extends Fn<K22['out'], unknown> = never,
+  K24 extends Fn<K23['out'], unknown> = never,
+  K25 extends Fn<K24['out'], unknown> = never,
+  K26 extends Fn<K25['out'], unknown> = never,
+  K27 extends Fn<K26['out'], unknown> = never,
+  K28 extends Fn<K27['out'], unknown> = never,
+  K29 extends Fn<K28['out'], unknown> = never,
+  K30 extends Fn<K29['out'], unknown> = never,
+  K31 extends Fn<K30['out'], unknown> = never,
+  K32 extends Fn<K31['out'], unknown> = never,
+  K33 extends Fn<K32['out'], unknown> = never,
+  K34 extends Fn<K33['out'], unknown> = never,
+  K35 extends Fn<K34['out'], unknown> = never,
+  K36 extends Fn<K35['out'], unknown> = never,
+  K37 extends Fn<K36['out'], unknown> = never,
+  K38 extends Fn<K37['out'], unknown> = never,
+  K39 extends Fn<K38['out'], unknown> = never,
+  K40 extends Fn<K39['out'], unknown> = never,
+  K41 extends Fn<K40['out'], unknown> = never,
+  K42 extends Fn<K41['out'], unknown> = never,
+> = InvokeUnwrapOr<
+  ToTupleWithOutput['out'],
+  InvokeFind<
+    Not<
+      Compose3<
+        Nth<[Fn<unknown, unknown>, unknown], 0>,
+        WrapBox<Fn<unknown, unknown>>,
+        IsAssignable<[Fn<unknown, unknown>], [never]>
+      >
+    >,
+    InvokeMap<
+      ToTupleWithOutput,
+      [
+        K42,
+        K41,
+        K40,
+        K39,
+        K38,
+        K37,
+        K36,
+        K35,
+        K34,
+        K33,
+        K32,
+        K31,
+        K30,
+        K29,
+        K28,
+        K27,
+        K26,
+        K25,
+        K24,
+        K23,
+        K22,
+        K21,
+        K20,
+        K19,
+        K18,
+        K17,
+        K16,
+        K15,
+        K14,
+        K13,
+        K12,
+        K11,
+        K10,
+        K9,
+        K8,
+        K7,
+        K6,
+        K5,
+        K4,
+        K3,
+        K2,
+        K1,
+      ]
+    >
+  >,
+  never
+>[1];
 
 interface ToTupleWithOutput
-  extends Transformer<
-    Transformer<unknown, unknown>,
-    [Transformer<unknown, unknown>, unknown]
-  > {
-  output: IfHasRaw<
+  extends Fn<Fn<unknown, unknown>, [Fn<unknown, unknown>, unknown]> {
+  out: IfInvoking<
     this,
-    'input',
-    [RawField<this, 'input'>, RawField<this, 'input'>['output']],
-    [Transformer<unknown, unknown>, unknown]
+    [Input<this>, Input<this>['out']],
+    [Fn<unknown, unknown>, unknown]
   >;
 }
 
-interface Compose2<
-  K1 extends Transformer<unknown, unknown>,
-  K2 extends Transformer<K1['output'], unknown>,
-> extends Transformer<K1['input'], K2['output']> {
-  output: IfHasRaw<
-    this,
-    'input',
-    InvokeTransformer<K2, InvokeTransformer<K1, RawField<this, 'input'>>>,
-    K2['output']
-  >;
+interface Compose3<
+  K1 extends Fn<unknown, unknown>,
+  K2 extends Fn<K1['out'], unknown>,
+  K3 extends Fn<K2['out'], unknown>,
+> extends Fn<K1['in'], K2['out']> {
+  out: IfInvoking<this, Fn<K3, Fn<K2, Fn<K1, Input<this>>>>, K3['out']>;
 }
