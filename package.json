@@ -1,7 +1,13 @@
 {
   "private": true,
   "name": "hktu",
-  "version": "0.0.3",
+  "version": "0.0.4",
+  "description": "HKT Utils",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/basic-examples/hktu.git"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "rimraf dist && tsc && clean-empty-js 'dist/**/*.js' 'dist/**/*.d.ts' && clean-empty-directory dist && cpy README.md dist && package-json-minifier",
     "publish": "npm run build && cd dist && npm publish"
