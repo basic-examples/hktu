@@ -29,5 +29,8 @@ export interface IsOk extends Fn<Result<unknown, unknown>, boolean> {
   out: IfInvoking<this, InvokeIsOk<Input<this>>, boolean>;
 }
 
-export type InvokeIsOk<R extends Result<unknown, unknown>> =
-  R extends ResultOk<unknown> ? true : false;
+export type InvokeIsOk<R extends Result<unknown, unknown>> = [R] extends [
+  ResultOk<unknown>,
+]
+  ? true
+  : false;

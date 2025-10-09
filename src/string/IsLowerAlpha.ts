@@ -5,7 +5,7 @@ export interface IsLowerAlpha extends Fn<string, boolean> {
   out: IfInvoking<this, InvokeIsLowerAlpha<Input<this>>, boolean>;
 }
 
-export type InvokeIsLowerAlpha<C extends string> = C extends
+export type InvokeIsLowerAlpha<C extends string> = [C] extends [
   | 'a'
   | 'b'
   | 'c'
@@ -31,6 +31,7 @@ export type InvokeIsLowerAlpha<C extends string> = C extends
   | 'w'
   | 'x'
   | 'y'
-  | 'z'
+  | 'z',
+]
   ? true
   : false;
