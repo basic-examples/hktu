@@ -1,4 +1,6 @@
-import { HKTU } from '../src';
+import { HKTU } from '../../src';
+import { Eq } from '../utils/Eq';
+import { Expect } from '../utils/Expect';
 
 // "Hello, world!"
 type WithPipe = HKTU.Pipe<
@@ -18,4 +20,4 @@ type WithPipe = HKTU.Pipe<
   HKTU.string.Append<'!'>
 >;
 
-declare const _unused: WithPipe;
+export type Test = Expect<Eq<'Hello, world!', WithPipe>>;

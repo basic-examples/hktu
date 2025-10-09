@@ -5,4 +5,5 @@ export * from './Map';
 export * from './MapEx';
 export * from './Nth';
 export * from './Reduce';
+export * from './ToArray';
 export * from './ToUnion';

@@ -22,6 +22,7 @@
     "useUnknownInCatchVariables": true,
 
     "noEmit": true,
+    "incremental": true,
   },
   "include": ["src", "test"],
 }
