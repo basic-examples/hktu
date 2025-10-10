@@ -1,5 +1,6 @@
 export type * as array from './array';
 export type * as object from './object';
+export type * as option from './option';
 export type * as result from './result';
 export type * as string from './string';
 export type * as types from './types';

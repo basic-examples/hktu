@@ -1,16 +1,5 @@
-import { ToArray } from './array';
-import { InvokeFind } from './array/Find';
-import { InvokeMap } from './array/Map';
 import { Fn } from './Fn';
-import { I } from './I';
-import { Invoke } from './Invoke';
-import { Not } from './Not';
-import { Get } from './object';
 import { Pipe } from './Pipe';
-import { InvokeUnwrapOr } from './result';
-import { IfInvoking } from './utils/IfInvoking';
-import { Input } from './utils/Input';
-import { IsAssignable } from './value/IsAssignable';
 
 export interface Compose<
   K1 extends Fn<unknown, unknown>,
@@ -237,88 +226,58 @@ type ComposeOutput<
   K40 extends Fn<K39['out'], unknown> = never,
   K41 extends Fn<K40['out'], unknown> = never,
   K42 extends Fn<K41['out'], unknown> = never,
-> = InvokeUnwrapOr<
-  ToTupleWithOutput['out'],
-  never,
-  InvokeFind<
-    Not<
-      Compose3<
-        Get<[Fn<unknown, unknown>, unknown], 0>,
-        ToArray<
-          Fn<unknown, unknown>,
-          [Fn<unknown, unknown>],
-          [I<Fn<unknown, unknown>>]
-        >,
-        IsAssignable<[Fn<unknown, unknown>], [never]>
-      >
-    >,
-    InvokeMap<
-      ToTupleWithOutput,
-      [
-        K42,
-        K41,
-        K40,
-        K39,
-        K38,
-        K37,
-        K36,
-        K35,
-        K34,
-        K33,
-        K32,
-        K31,
-        K30,
-        K29,
-        K28,
-        K27,
-        K26,
-        K25,
-        K24,
-        K23,
-        K22,
-        K21,
-        K20,
-        K19,
-        K18,
-        K17,
-        K16,
-        K15,
-        K14,
-        K13,
-        K12,
-        K11,
-        K10,
-        K9,
-        K8,
-        K7,
-        K6,
-        K5,
-        K4,
-        K3,
-        K2,
-        K1,
-      ]
-    >
-  >
->[1];
+> = FindFirstNonNever<
+  [
+    K42,
+    K41,
+    K40,
+    K39,
+    K38,
+    K37,
+    K36,
+    K35,
+    K34,
+    K33,
+    K32,
+    K31,
+    K30,
+    K29,
+    K28,
+    K27,
+    K26,
+    K25,
+    K24,
+    K23,
+    K22,
+    K21,
+    K20,
+    K19,
+    K18,
+    K17,
+    K16,
+    K15,
+    K14,
+    K13,
+    K12,
+    K11,
+    K10,
+    K9,
+    K8,
+    K7,
+    K6,
+    K5,
+    K4,
+    K3,
+    K2,
+    K1,
+  ]
+>['out'];
 
-interface ToTupleWithOutput
-  extends Fn<Fn<unknown, unknown>, [Fn<unknown, unknown>, unknown]> {
-  out: IfInvoking<
-    this,
-    [Input<this>, Input<this>['out']],
-    [Fn<unknown, unknown>, unknown]
-  >;
-}
-
-interface Compose3<
-  K1 extends Fn<unknown, unknown>,
-  K2 extends Fn<K1['out'], unknown>,
-  K3 extends Fn<K2['out'], unknown>,
-> extends Fn<K1['in'], K3['out']> {
-  out: IfInvoking<
-    this,
-    Invoke<K3, Invoke<K2, Invoke<K1, Input<this>>>>,
-    K3['out']
-  >;
-}
+type FindFirstNonNever<K extends Fn<unknown, unknown>[]> = K extends [
+  infer First extends Fn<unknown, unknown>,
+  ...infer Rest extends Fn<unknown, unknown>[],
+]
+  ? [First] extends [never]
+    ? FindFirstNonNever<Rest>
+    : First
+  : never;
