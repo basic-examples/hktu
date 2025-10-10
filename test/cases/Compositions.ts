@@ -3,16 +3,16 @@ import { Eq } from '../utils/Eq';
 import { Expect } from '../utils/Expect';
 
 export type Composition1 = HKTU.Compose<
-  HKTU.value.I<string>,
+  HKTU.I<string>,
   HKTU.array.ToArray<
     string,
     [string, HKTU.types.ArrayItemInfo<string>],
     [
-      HKTU.value.I<string>,
+      HKTU.I<string>,
       HKTU.object.ToObject<
         string,
         HKTU.types.ArrayItemInfo<string>,
-        { index: HKTU.value.C<0>; item: HKTU.value.I<string> }
+        { index: HKTU.C<0>; item: HKTU.I<string> }
       >,
     ]
   >

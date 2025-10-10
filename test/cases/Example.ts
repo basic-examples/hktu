@@ -7,7 +7,7 @@ type WithPipe = HKTU.Pipe<
   'hello42world',
   HKTU.string.Split<'42'>,
   HKTU.array.MapEx<
-    HKTU.value.If<
+    HKTU.If<
       HKTU.value.IsAssignable<HKTU.types.ArrayItemInfo<string>, { index: 0 }>,
       HKTU.Compose<
         HKTU.object.Get<HKTU.types.ArrayItemInfo<string>, 'item'>,

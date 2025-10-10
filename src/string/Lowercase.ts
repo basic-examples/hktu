@@ -1,10 +1,10 @@
 import { Map } from '../array';
 import { Join } from '../array/Join';
 import { Fn } from '../Fn';
+import { I } from '../I';
+import { If } from '../If';
 import { Pipe } from '../Pipe';
 import { IfInvoking, Input } from '../utils';
-import { I } from '../value/I';
-import { If } from '../value/If';
 import { IsLowerAlpha } from './IsLowerAlpha';
 import { Split } from './Split';
 

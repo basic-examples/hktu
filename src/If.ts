@@ -1,6 +1,6 @@
-import { Fn } from '../Fn';
-import { Invoke } from '../Invoke';
-import { IfInvoking, Input } from '../utils';
+import { Fn } from './Fn';
+import { Invoke } from './Invoke';
+import { IfInvoking, Input } from './utils';
 
 export interface If<
   Condition extends Fn<unknown, boolean>,

@@ -1,15 +1,16 @@
+import { ToArray } from './array';
 import { InvokeFind } from './array/Find';
 import { InvokeMap } from './array/Map';
-import { Nth } from './array/Nth';
 import { Fn } from './Fn';
+import { I } from './I';
 import { Invoke } from './Invoke';
 import { Not } from './Not';
+import { Get } from './object';
 import { Pipe } from './Pipe';
 import { InvokeUnwrapOr } from './result';
 import { IfInvoking } from './utils/IfInvoking';
 import { Input } from './utils/Input';
 import { IsAssignable } from './value/IsAssignable';
-import { WrapBox } from './value/WrapBox';
 
 export interface Compose<
   K1 extends Fn<unknown, unknown>,
@@ -242,8 +243,12 @@ type ComposeOutput<
   InvokeFind<
     Not<
       Compose3<
-        Nth<[Fn<unknown, unknown>, unknown], 0>,
-        WrapBox<Fn<unknown, unknown>>,
+        Get<[Fn<unknown, unknown>, unknown], 0>,
+        ToArray<
+          Fn<unknown, unknown>,
+          [Fn<unknown, unknown>],
+          [I<Fn<unknown, unknown>>]
+        >,
         IsAssignable<[Fn<unknown, unknown>], [never]>
       >
     >,
