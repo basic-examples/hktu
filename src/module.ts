@@ -1,14 +1,14 @@
-export * as array from './array';
-export * as object from './object';
-export * as string from './string';
-export * as types from './types';
-export * as union from './union';
-export * as utils from './utils';
-export * as value from './value';
+export type * as array from './array';
+export type * as object from './object';
+export type * as result from './result';
+export type * as string from './string';
+export type * as types from './types';
+export type * as union from './union';
+export type * as utils from './utils';
+export type * as value from './value';
 
-export * from './Compose';
-export * from './Fn';
-export * from './Invoke';
-export * from './Not';
-export * from './Pipe';
-export * from './Result';
+export type * from './Compose';
+export type * from './Fn';
+export type * from './Invoke';
+export type * from './Not';
+export type * from './Pipe';

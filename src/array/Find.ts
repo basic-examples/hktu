@@ -1,6 +1,6 @@
 import { Fn } from '../Fn';
 import { Invoke } from '../Invoke';
-import { Result, ResultErr, ResultOk } from '../Result';
+import { Result, ResultErr, ResultOk } from '../types';
 import { HandleNever, IfInvoking, Input } from '../utils';
 
 export interface Find<
@@ -22,6 +22,6 @@ export type InvokeFind<
   OnErrorTypeConstraint = OnError,
 > = List extends [infer First extends K['in'], ...infer Rest extends K['in'][]]
   ? Invoke<K, HandleNever<First, List[0]>> extends true
-    ? ResultOk<HandleNever<First, List[0]>>
+    ? ResultOk<HandleNever<First, List[0]>, K['in'], OnErrorTypeConstraint>
     : InvokeFind<K, Rest>
-  : ResultErr<OnError>;
+  : ResultErr<OnError, K['in'], OnErrorTypeConstraint>;

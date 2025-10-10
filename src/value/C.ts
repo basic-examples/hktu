@@ -1,3 +1,3 @@
 import { Fn } from '../Fn';
 
-export interface C<Discard, Value> extends Fn<Discard, Value> {}
+export interface C<Value> extends Fn<any, Value> {}

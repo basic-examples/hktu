@@ -5,7 +5,7 @@ import { Fn } from './Fn';
 import { Invoke } from './Invoke';
 import { Not } from './Not';
 import { Pipe } from './Pipe';
-import { InvokeUnwrapOr } from './Result';
+import { InvokeUnwrapOr } from './result';
 import { IfInvoking } from './utils/IfInvoking';
 import { Input } from './utils/Input';
 import { IsAssignable } from './value/IsAssignable';
@@ -238,6 +238,7 @@ type ComposeOutput<
   K42 extends Fn<K41['out'], unknown> = never,
 > = InvokeUnwrapOr<
   ToTupleWithOutput['out'],
+  never,
   InvokeFind<
     Not<
       Compose3<
@@ -293,8 +294,7 @@ type ComposeOutput<
         K1,
       ]
     >
-  >,
-  never
+  >
 >[1];
 
 interface ToTupleWithOutput

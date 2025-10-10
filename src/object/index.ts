@@ -1,7 +1,7 @@
-export * from './Exclude';
-export * from './Extract';
-export * from './Get';
-export * from './Map';
-export * from './Omit';
-export * from './Pick';
-export * from './ToObject';
+export type * from './Exclude';
+export type * from './Extract';
+export type * from './Get';
+export type * from './Map';
+export type * from './Omit';
+export type * from './Pick';
+export type * from './ToObject';

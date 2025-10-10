@@ -12,7 +12,7 @@ export type Composition1 = HKTU.Compose<
       HKTU.object.ToObject<
         string,
         HKTU.types.ArrayItemInfo<string>,
-        { index: HKTU.value.C<string, 0>; item: HKTU.value.I<string> }
+        { index: HKTU.value.C<0>; item: HKTU.value.I<string> }
       >,
     ]
   >

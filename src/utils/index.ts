@@ -1,5 +1,5 @@
-export * from './HandleNever';
-export * from './IfInvoking';
-export * from './Input';
-export * from './IsNever';
-export * from './Negate';
+export type * from './HandleNever';
+export type * from './IfInvoking';
+export type * from './Input';
+export type * from './IsNever';
+export type * from './Negate';

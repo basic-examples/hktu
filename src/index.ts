@@ -1,2 +1,2 @@
-export * from './module';
-export * as HKTU from './module';
+export type * from './module';
+export type * as HKTU from './module';
