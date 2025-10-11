@@ -5,4 +5,5 @@ export type * from './IsOk';
 export type * from './Map';
 export type * from './MapErr';
 export type * from './OrElse';
+export type * from './Unwrap';
 export type * from './UnwrapOr';
